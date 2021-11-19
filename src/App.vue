@@ -1,14 +1,20 @@
 <template>
   <div id="app">
+    <div>
+      <router-link class="link" to="/goods" exact>Список товаров</router-link>
+        <router-link class="link" to="/cart" exact>Корзина</router-link>
+      <router-view>
+        
+      </router-view>
+    </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "App",
-  components: {
-    Form,
+  mounted() {
+    this.$store.dispatch("getGoodsList");
   },
 };
 </script>
@@ -16,8 +22,6 @@ export default {
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  color: #2c3e50;
-  background-color: #fafafa;
   padding: 24px;
   box-sizing: border-box;
 }
@@ -30,5 +34,15 @@ body,
 
 * {
   box-sizing: border-box;
+}
+
+.link {
+  text-decoration: none;
+  color: #000;
+  margin-right: 10px;
+}
+
+.link:last-child {
+  margin-right: 0;
 }
 </style>
