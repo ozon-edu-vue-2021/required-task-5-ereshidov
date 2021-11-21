@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- add cartItemsP -->
     <cart-item
       v-for="cartItem in cart.items"
       :key="cartItem.id"
