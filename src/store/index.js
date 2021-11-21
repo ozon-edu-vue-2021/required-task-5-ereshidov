@@ -1,6 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import images from "../assets/images";
+import { getRandomValueFromRange } from "../helpers";
+
 Vue.use(Vuex);
 
 const MIN_PRICE = 0;
@@ -52,7 +55,8 @@ export default new Vuex.Store({
         const goods = await response.json();
         const mappedGoods = goods.map((good) => ({
           ...good,
-          price: Math.ceil(Math.random() * (MAX_PRICE - MIN_PRICE) + MIN_PRICE),
+          price: Math.ceil(getRandomValueFromRange(MIN_PRICE, MAX_PRICE)),
+          preview: images[Math.ceil(getRandomValueFromRange(0, images.length - 1 ?? 0))],
         }));
 
         context.commit("setGoodsList", mappedGoods);
@@ -66,15 +70,8 @@ export default new Vuex.Store({
   getters: {
     cartTotalPrice(state) {
       return state.cart.items.reduce((totalPrice, cartItem) => {
-        return totalPrice + (cartItem.price * cartItem.totalCount);
+        return totalPrice + cartItem.price * cartItem.totalCount;
       }, 0);
-    },
-    totalPriceByGoodId: (state) => (id) => {
-      const good = state.cart.items.find((cartItem) => cartItem.id === id);
-      if (good) {
-        return good.price * good.totalCount;
-      }
-      return 0;
     },
     totalCountByGoodId: (state) => (id) => {
       return state.cart.items.find((it) => it.id === id)?.totalCount;

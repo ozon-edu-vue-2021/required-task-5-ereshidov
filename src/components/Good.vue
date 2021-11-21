@@ -1,11 +1,16 @@
 <template>
   <div class="good">
-    <img class="preview" width="200" height="200" :src="preview" />
+    <img class="preview" width="200" height="200" :src="previewImage" />
     <div>{{ name }}</div>
     <div>{{ price }} &#x20bd;</div>
     <div v-if="isItemOnCart">
       Количество:
-      <input min="1" @input="updateTotalCount" :value="totalCount" type="number" />
+      <input
+        min="1"
+        @input="updateTotalCount"
+        :value="totalCount"
+        type="number"
+      />
     </div>
     <button :disabled="isItemOnCart" @click="addToCart">
       {{ isItemOnCart ? "Уже в корзине" : "Добавить в корзину" }}
@@ -29,6 +34,9 @@ export default {
       type: Number,
       default: () => 0,
     },
+    preview: {
+      type: String,
+    },
   },
   data() {
     return {
@@ -36,12 +44,16 @@ export default {
     };
   },
   computed: {
-    preview() {
-      return "https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png";
-    },
     totalCount() {
-      return this.$store.getters.totalCountByGoodId(this.$props.id);
-    }
+      return (
+        this.$store.state.cart.items.find((it) => it.id === this.$props.id)
+          ?.totalCount ?? 0
+      );
+    },
+    previewImage() {
+      const image = this.$props.preview?.split("./")[1];
+      return require(`../assets/images/${image}`);
+    },
   },
   mounted() {
     const cartIds = this.$store.state.cart.items.map((it) => it.id);
@@ -53,7 +65,7 @@ export default {
         id: this.$props.id,
         name: this.$props.name,
         price: this.price,
-        preview: this.preview,
+        preview: this.$props.preview,
         totalCount: 1,
       });
       this.$data.isItemOnCart = true;

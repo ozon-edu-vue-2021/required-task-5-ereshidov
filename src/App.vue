@@ -1,12 +1,14 @@
 <template>
   <div id="app">
     <div>
+    <div class="nav" >
       <router-link class="link" to="/goods" exact>Список товаров</router-link>
         <router-link class="link" to="/cart" exact>Корзина</router-link>
+    </div>
       <router-view>
         
       </router-view>
-    </div>
+      </div>
   </div>
 </template>
 
@@ -44,5 +46,9 @@ body,
 
 .link:last-child {
   margin-right: 0;
+}
+
+.nav {
+  margin-bottom: 10px;
 }
 </style>

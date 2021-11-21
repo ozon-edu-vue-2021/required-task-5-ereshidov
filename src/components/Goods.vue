@@ -9,6 +9,7 @@
         :name="good.ingredient"
         :id="good.id"
         :price="good.price"
+        :preview="good.preview"
       />
     </div>
   </div>
@@ -35,5 +36,6 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     justify-content: center;
+    grid-gap: 10px;
   }
 </style>
