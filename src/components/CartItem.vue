@@ -12,6 +12,7 @@
           @input="updateTotalCount($event, cartItem.id)"
           :value="cartItem.totalCount"
           type="number"
+          min="1"
         />
         =
         {{ totalPrice }}
